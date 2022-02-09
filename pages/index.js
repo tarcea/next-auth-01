@@ -8,6 +8,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [logged, setLogged] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,8 +16,20 @@ export default function Home() {
     const res = await axios.post("/api/auth/login", credentials);
     const user = res.data;
     const { userName, message } = user;
+    user && setLogged(true);
     setMessage(message);
     console.log(userName, message);
+  };
+
+  const getUser = async () => {
+    const user = await axios.get("/api/user");
+
+    console.log(user);
+  };
+
+  const logOut = async () => {
+    await axios.get("/api/auth/logout");
+    setLogged(false);
   };
 
   return (
@@ -35,6 +48,8 @@ export default function Home() {
         />
         <input type="submit" />
       </form>
+      <button onClick={getUser}>get current user</button>
+      {logged && <button onClick={logOut}>logout</button>}
     </div>
   );
 }
