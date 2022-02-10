@@ -1,5 +1,9 @@
 import axios from "axios";
 import { serialize } from "cookie";
+const authApiUrl =
+  process.env.NODE_ENV !== "development"
+    ? process.env.AUTH_API_URL
+    : "http://localhost:5050";
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -8,10 +12,7 @@ const login = async (req, res) => {
     if (!email || !password) {
       return res.json({ message: "email and password are required" });
     }
-    const response = await axios.post(
-      "http://localhost:5050/users/login",
-      req.body
-    );
+    const response = await axios.post(`${authApiUrl}/users/login`, req.body);
 
     const user = response.data;
     const token = user.token;
