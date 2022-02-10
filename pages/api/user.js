@@ -7,8 +7,8 @@ const user = async (req, res) => {
     return res.json({ message: "invalid token" });
   }
   res.json({
-    data: "some secret data related to the user",
-    message: "was successful",
+    data: "If you see this, you are logged in :-)",
+    message: "logged in successfully",
   });
 };
 
